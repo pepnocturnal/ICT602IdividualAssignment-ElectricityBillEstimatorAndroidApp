@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class ListActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class ListActivity extends AppCompatActivity {
             String month     = cursor.getString(cursor.getColumnIndexOrThrow(BillDatabaseHelper.COL_MONTH));
             double finalCost = cursor.getDouble(cursor.getColumnIndexOrThrow(BillDatabaseHelper.COL_FINAL));
 
-            displayItems.add("📅 " + month + "   |   RM " + String.format("%.2f", finalCost));
+            displayItems.add(month + "   |   RM " + String.format(Locale.getDefault(), "%.2f", finalCost));
             billIds.add(id);
         }
         cursor.close();

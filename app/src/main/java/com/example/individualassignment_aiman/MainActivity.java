@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
             "Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     };
-
 
     private static final double RATE_BLOCK_1 = 0.218; // First 200 kWh
     private static final double RATE_BLOCK_2 = 0.334; // 201–300 kWh
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         seekBarRebate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                tvRebateLabel.setText("Rebate: " + progress + "%");
+                tvRebateLabel.setText(String.format(Locale.getDefault(), "Rebate: %d%%", progress));
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override public void onStopTrackingTouch(SeekBar seekBar) { }
@@ -90,18 +90,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void onCalculateClicked() {
         double unit = getValidatedUnit();
-        if (unit < 0) return; // Validation failed; error already shown
+        if (unit < 0) return;
 
         String month     = spinnerMonth.getSelectedItem().toString();
         double rebate    = seekBarRebate.getProgress();
         double total     = calculateTotalCharges(unit);
         double finalCost = applyRebate(total, rebate);
 
-        tvTotalCharges.setText(String.format("Total Charges: RM %.2f", total));
-        tvFinalCost.setText(String.format("Final Cost after Rebate: RM %.2f", finalCost));
+        tvTotalCharges.setText(String.format(Locale.getDefault(), "Total Charges: RM %.2f", total));
+        tvFinalCost.setText(String.format(Locale.getDefault(), "Final Cost after Rebate: RM %.2f", finalCost));
 
         dbHelper.insertBill(month, unit, total, rebate, finalCost);
-        Toast.makeText(this, "✅ Record saved successfully!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Record saved successfully!", Toast.LENGTH_SHORT).show();
     }
 
     private double getValidatedUnit() {
@@ -130,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
         return unit;
     }
-
 
     public static double calculateTotalCharges(double unit) {
         if (unit <= 200) {
