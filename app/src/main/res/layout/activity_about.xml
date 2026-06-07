@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4F8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0097A7"
+            android:gravity="center"
+            android:padding="28dp">
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="149dp"
+                android:layout_height="127dp"
+                android:layout_marginBottom="12dp"
+                android:background="#B2EBF2"
+                android:padding="8dp"
+                android:src="@drawable/aiman" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AIMAN NAZMI BIN NAZARI"
+                android:textColor="#FFFFFF"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Student ID: 2024926893"
+                android:textColor="#B2EBF2"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ICT602 — Mobile Technology and Development"
+                android:textSize="13sp"
+                android:textColor="#B2EBF2"
+                android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="#80DEEA"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="#FFFFFF"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Source Code"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#455A64"
+                    android:paddingBottom="6dp"/>
+
+                <TextView
+                    android:id="@+id/tvGithubUrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View on GitHub"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic"
+                    android:textColor="#0288D1"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="#FFFFFF"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="How to Use This App"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#0097A7"
+                    android:paddingBottom="12dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1.  Select the billing month from the dropdown menu."
+                    android:textSize="14sp"
+                    android:textColor="#455A64"
+                    android:lineSpacingMultiplier="1.4"
+                    android:paddingBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2.  Enter the number of electricity units used (1 – 1000 kWh)."
+                    android:textSize="14sp"
+                    android:textColor="#455A64"
+                    android:lineSpacingMultiplier="1.4"
+                    android:paddingBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3.  Drag the slider to set a rebate percentage (0% – 5%)."
+                    android:textSize="14sp"
+                    android:textColor="#455A64"
+                    android:lineSpacingMultiplier="1.4"
+                    android:paddingBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="4.  Tap CALCULATE BILL to see total charges and final cost."
+                    android:textSize="14sp"
+                    android:textColor="#455A64"
+                    android:lineSpacingMultiplier="1.4"
+                    android:paddingBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="5.  Tap VIEW ALL RECORDS to browse all saved bills."
+                    android:textSize="14sp"
+                    android:textColor="#455A64"
+                    android:lineSpacingMultiplier="1.4"
+                    android:paddingBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="6.  Tap any record in the list to see its full details."
+                    android:textSize="14sp"
+                    android:textColor="#455A64"
+                    android:lineSpacingMultiplier="1.4"
+                    android:paddingBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="7.  From the detail page you can edit the units and rebate, or delete the record permanently."
+                    android:textSize="14sp"
+                    android:textColor="#455A64"
+                    android:lineSpacingMultiplier="1.4"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>
