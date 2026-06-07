@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -7,6 +6,24 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:background="#FFFFFF">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Billing Month"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="#455A64"
+        android:paddingBottom="6dp"/>
+
+    <Spinner
+        android:id="@+id/spinnerEditMonth"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_input_rounded"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginBottom="16dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -23,7 +40,7 @@
         android:layout_height="50dp"
         android:hint="Enter value between 1 – 1000"
         android:inputType="numberDecimal"
-        android:background="@color/white"
+        android:background="@drawable/bg_input_rounded"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
         android:textSize="14sp"
@@ -51,7 +68,7 @@
             android:id="@+id/tvEditRebate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0%"
+            android:text="Rebate: 0%"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#0097A7"/>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -37,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="No records yet.\n\nGo back and calculate your first bill! ⚡"
+        android:text="No records yet.\n\nGo back and calculate your first bill!"
         android:textSize="15sp"
         android:textColor="#90A4AE"
         android:gravity="center"

@@ -12,44 +12,22 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
-
 public class MainActivity extends AppCompatActivity {
 
-    private Spinner  spinnerMonth;
-    private SeekBar  seekBarRebate;
-    private EditText etUnit;
-    private TextView tvRebateLabel, tvTotalCharges, tvFinalCost;
-    private Button   btnCalculate, btnViewRecords, btnAbout;
+    Spinner spinnerMonth;
+    SeekBar seekBarRebate;
+    EditText etUnit;
+    TextView tvRebateLabel, tvTotalCharges, tvFinalCost;
+    Button btnCalculate, btnViewRecords, btnAbout;
+    BillDatabaseHelper dbHelper;
 
-    private BillDatabaseHelper dbHelper;
-
-    private static final double MIN_UNIT = 1.0;
-    private static final double MAX_UNIT = 1000.0;
-
-    private static final String[] MONTHS = {
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    };
-
-    private static final double RATE_BLOCK_1 = 0.218; // First 200 kWh
-    private static final double RATE_BLOCK_2 = 0.334; // 201–300 kWh
-    private static final double RATE_BLOCK_3 = 0.516; // 301–600 kWh
-    private static final double RATE_BLOCK_4 = 0.546; // 601–1000 kWh
-
+    String[] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bindViews();
-        dbHelper = new BillDatabaseHelper(this);
-        setupMonthSpinner();
-        setupRebateSeekBar();
-        setupButtonListeners();
-    }
-
-    private void bindViews() {
         spinnerMonth   = findViewById(R.id.spinnerMonth);
         seekBarRebate  = findViewById(R.id.seekBarRebate);
         tvRebateLabel  = findViewById(R.id.tvRebateLabel);
@@ -59,97 +37,77 @@ public class MainActivity extends AppCompatActivity {
         btnCalculate   = findViewById(R.id.btnCalculate);
         btnViewRecords = findViewById(R.id.btnViewRecords);
         btnAbout       = findViewById(R.id.btnAbout);
-    }
 
-    private void setupMonthSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, MONTHS);
+        dbHelper = new BillDatabaseHelper(this);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, months);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMonth.setAdapter(adapter);
-    }
 
-    private void setupRebateSeekBar() {
         seekBarRebate.setMax(5);
         seekBarRebate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tvRebateLabel.setText(String.format(Locale.getDefault(), "Rebate: %d%%", progress));
             }
-            @Override public void onStartTrackingTouch(SeekBar seekBar) { }
-            @Override public void onStopTrackingTouch(SeekBar seekBar) { }
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-    }
 
-    private void setupButtonListeners() {
-        btnCalculate.setOnClickListener(v -> onCalculateClicked());
+        btnCalculate.setOnClickListener(v -> calculate());
+
         btnViewRecords.setOnClickListener(v ->
                 startActivity(new Intent(this, ListActivity.class)));
+
         btnAbout.setOnClickListener(v ->
                 startActivity(new Intent(this, AboutActivity.class)));
     }
 
-    private void onCalculateClicked() {
-        double unit = getValidatedUnit();
-        if (unit < 0) return;
-
-        String month     = spinnerMonth.getSelectedItem().toString();
-        double rebate    = seekBarRebate.getProgress();
-        double total     = calculateTotalCharges(unit);
-        double finalCost = applyRebate(total, rebate);
-
-        tvTotalCharges.setText(String.format(Locale.getDefault(), "Total Charges: RM %.2f", total));
-        tvFinalCost.setText(String.format(Locale.getDefault(), "Final Cost after Rebate: RM %.2f", finalCost));
-
-        dbHelper.insertBill(month, unit, total, rebate, finalCost);
-        Toast.makeText(this, "Record saved successfully!", Toast.LENGTH_SHORT).show();
-    }
-
-    private double getValidatedUnit() {
+    private void calculate() {
         String unitStr = etUnit.getText().toString().trim();
 
         if (unitStr.isEmpty()) {
             etUnit.setError("Please enter the units used (kWh)");
             etUnit.requestFocus();
-            return -1;
+            return;
         }
 
         double unit;
         try {
             unit = Double.parseDouble(unitStr);
         } catch (NumberFormatException e) {
-            etUnit.setError("Invalid number — please enter digits only");
+            etUnit.setError("Invalid number, please enter digits only");
             etUnit.requestFocus();
-            return -1;
+            return;
         }
 
-        if (unit < MIN_UNIT || unit > MAX_UNIT) {
+        if (unit < 1 || unit > 1000) {
             etUnit.setError("Units must be between 1 and 1000 kWh");
             etUnit.requestFocus();
-            return -1;
+            return;
         }
 
-        return unit;
+        String month  = spinnerMonth.getSelectedItem().toString();
+        double rebate = seekBarRebate.getProgress();
+        double total  = calculateTotal(unit);
+        double finalCost = total - (total * rebate / 100);
+
+        tvTotalCharges.setText(String.format(Locale.getDefault(), "Total Charges: RM %.2f", total));
+        tvFinalCost.setText(String.format(Locale.getDefault(), "Final Cost after Rebate: RM %.2f", finalCost));
+
+        dbHelper.insertBill(month, unit, total, rebate, finalCost);
+        Toast.makeText(this, "Record saved!", Toast.LENGTH_SHORT).show();
     }
 
-    public static double calculateTotalCharges(double unit) {
+    private double calculateTotal(double unit) {
         if (unit <= 200) {
-            return unit * RATE_BLOCK_1;
+            return unit * 0.218;
         } else if (unit <= 300) {
-            return (200 * RATE_BLOCK_1)
-                    + ((unit - 200) * RATE_BLOCK_2);
+            return (200 * 0.218) + ((unit - 200) * 0.334);
         } else if (unit <= 600) {
-            return (200 * RATE_BLOCK_1)
-                    + (100 * RATE_BLOCK_2)
-                    + ((unit - 300) * RATE_BLOCK_3);
+            return (200 * 0.218) + (100 * 0.334) + ((unit - 300) * 0.516);
         } else {
-            return (200 * RATE_BLOCK_1)
-                    + (100 * RATE_BLOCK_2)
-                    + (300 * RATE_BLOCK_3)
-                    + ((unit - 600) * RATE_BLOCK_4);
+            return (200 * 0.218) + (100 * 0.334) + (300 * 0.516) + ((unit - 600) * 0.546);
         }
-    }
-
-    private double applyRebate(double total, double rebatePercent) {
-        return total - (total * rebatePercent / 100.0);
     }
 }
