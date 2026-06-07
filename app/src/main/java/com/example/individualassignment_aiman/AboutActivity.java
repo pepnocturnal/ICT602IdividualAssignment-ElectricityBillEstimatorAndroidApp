@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AboutActivity extends AppCompatActivity {
 
 
-    private static final String GITHUB_URL = "https://github.com/pepnocturnal/ICT602-Individual-Assignment---Electricity-Bill-Estimator-Android-App";
+    private static final String GITHUB_URL = "https://github.com/pepnocturnal/ICT602IdividualAssignment-ElectricityBillEstimatorAndroidApp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
